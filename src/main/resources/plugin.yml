@@ -1,0 +1,29 @@
+name: DiscordLinking
+version: "2.0"
+api-version: "1.16"
+authors: [appleptr16, Liam (MineMaster836), Essentuan]
+main: me.discordlinking.Main
+description: Links a discord channel to minecraft chat
+
+commands:
+  disablebot:
+    description: disables the connection between discord and mc chat
+    permission: discordlinking.disable
+
+  enablebot:
+    description: enables the connection between discord and mc chat
+    permission: discordlinking.enable
+
+  discordReload:
+    description: reloads the config for token and channel changes
+    permission: discordlinking.reload
+
+permissions:
+  discordlinking.disable:
+    default: op
+
+  discordlinking.enable:
+    default: op
+
+  discordlinking.reload:
+    default: op
