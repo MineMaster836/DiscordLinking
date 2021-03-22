@@ -37,6 +37,7 @@ public class ReloadCommand implements CommandExecutor {
         DiscordBot.webhookURL = config.getString("webhook.webhookURL");
         DiscordBot.avatarURL = config.getString("webhook.avatarURL");
         DiscordBot.showDeaths = config.getBoolean("options.showDeaths");
+        DiscordBot.enableWynnApi = config.getBoolean("options.wynnApi");
 
         DiscordBot bot = new DiscordBot();
         try {

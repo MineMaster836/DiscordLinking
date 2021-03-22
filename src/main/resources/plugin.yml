@@ -18,6 +18,10 @@ commands:
     description: reloads the config for token and channel changes
     permission: discordlinking.reload
 
+  discord:
+    description: basic command discordLinking
+    permission: discordlinking.discord
+
 permissions:
   discordlinking.disable:
     default: op

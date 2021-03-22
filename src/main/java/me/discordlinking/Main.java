@@ -18,6 +18,7 @@ public class Main extends JavaPlugin {
         new DisableBotCommand(this);
         new EnableBotCommand(this);
         new ReloadCommand(this);
+        new DiscordCommand(this);
 
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
@@ -34,7 +35,7 @@ public class Main extends JavaPlugin {
             }
         } else {
             try {
-                builder.setContent("**RELOAD COMPLETE**  :white_check_mark:");
+                builder.setContent("**RELOAD COMPLETE** :white_check_mark:");
                 DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() + "/"
                         + Bukkit.getServer().getMaxPlayers() + " Players"));
             } catch (Exception e) {
@@ -77,7 +78,7 @@ public class Main extends JavaPlugin {
             }
         } else {
             try {
-                builder.setContent("**SERVER RELOADING**  :arrows_counterclockwise:");
+                builder.setContent("**SERVER RELOADING** :arrows_counterclockwise:");
             } catch (Exception e) {
                 // ignore mess ups
             }
@@ -88,7 +89,7 @@ public class Main extends JavaPlugin {
     }
 
     public static boolean isReloading(String reloading) {
-        switch(reloading) {
+        switch (reloading) {
             case "null":
                 return new File("serverReloading").exists();
             case "true":

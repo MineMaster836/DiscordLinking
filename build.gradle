@@ -9,6 +9,7 @@ version '2.0'
 repositories {
     mavenCentral()
     jcenter()
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -19,8 +20,17 @@ dependencies {
         exclude module: 'opus-java'
     }
     compile("club.minnced:discord-webhooks:0.5.5-rc")
+    implementation 'com.github.Bedo9041:jWynn:0.7.4'
 }
 
 test {
     useJUnitPlatform()
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+shadowJar{
+    archiveFileName = "${baseName}.${extension}"
+    destinationDirectory = file("C:\\Users\\liamp\\Desktop\\MC Server\\plugins")
 }

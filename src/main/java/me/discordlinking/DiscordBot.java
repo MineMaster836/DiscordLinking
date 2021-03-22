@@ -2,6 +2,9 @@ package me.discordlinking;
 
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
+import me.bed0.jWynn.WynncraftAPI;
+import me.bed0.jWynn.api.v1.guild.WynncraftGuild;
+import me.bed0.jWynn.api.v1.guild.WynncraftGuildMember;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -11,6 +14,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.bukkit.entity.Player;
@@ -31,6 +35,7 @@ public class DiscordBot extends ListenerAdapter {
     public static String webhookURL;
     public static String avatarURL;
     public static boolean showDeaths;
+    public static boolean enableWynnApi;
 
     public DiscordBot() {
         File file = new File("plugins" + File.separator + "DiscordLinking" + File.separator + "config.yml");
@@ -40,6 +45,8 @@ public class DiscordBot extends ListenerAdapter {
         webhookURL = config.getString("webhook.webhookURL");
         avatarURL = config.getString("webhook.avatarURL");
         showDeaths = config.getBoolean("options.showDeaths");
+        enableWynnApi = config.getBoolean("options.wynnApi");
+
     }
 
     public void startup() throws LoginException {
@@ -49,9 +56,11 @@ public class DiscordBot extends ListenerAdapter {
         botEnabled = true;
     }
 
+    public static boolean sendMessage;
+
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        boolean sendMessage = true;
+        sendMessage = true;
         if (event.getAuthor().isBot() || event.getChannel().getIdLong() != channelID) return;
         String[] args = Arrays.copyOfRange(event.getMessage().getContentRaw().split(" "), 1, event.getMessage().getContentRaw().split(" ").length);
 
@@ -109,6 +118,23 @@ public class DiscordBot extends ListenerAdapter {
             builder.setContent(memberName + " enabled MC Chat!");
             client.send(builder.build());
             client.close();
+        } else if (event.getMessage().getContentStripped().contains((">w").toLowerCase()) && event.getMessage().getContentRaw().charAt(0) == '>' && (event.getMember().hasPermission(Permission.MANAGE_CHANNEL) || event.getMember().getId().equals("392410817049526273"))) {
+            if (enableWynnApi) {
+                sendMessage = false;
+                WynncraftAPI wynnAPI = new WynncraftAPI();
+                WynncraftGuild guild = wynnAPI.v1().guildStats(event.getMessage().getContentStripped().replace(">w ", "")).run();
+                WynncraftGuildMember[] guildMembers = guild.getMembers();
+                StringBuilder builder = new StringBuilder();
+
+                for (WynncraftGuildMember guildMember : guildMembers) {
+                    OfflinePlayer player = Bukkit.getOfflinePlayer(guildMember.getName());
+                    if (!player.isWhitelisted()) {
+                        player.setWhitelisted(true);
+                        builder.append(player.getName()).append(", ");
+                    }
+                }
+                event.getChannel().sendMessage("Added " + builder + "to the whitelist").queue();
+            }
         }
 
         if (sendMessage && botEnabled) {
@@ -117,7 +143,7 @@ public class DiscordBot extends ListenerAdapter {
 
             if (roles.size() == 0) {
                 Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', String.format("%s &7| &r%s &8>> &r%s",
-                        ChatColor.of("#8EA0E1") + "Discord" , member.getEffectiveName(), event.getMessage().getContentRaw())));
+                        ChatColor.of("#8EA0E1") + "Discord", member.getEffectiveName(), event.getMessage().getContentRaw())));
             } else {
                 Role userRole = roles.get(0);
                 if (userRole.getName().equalsIgnoreCase("*") || userRole.getName().equalsIgnoreCase("admin") || userRole.getName().equalsIgnoreCase("moderator")) {

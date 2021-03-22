@@ -1,0 +1,243 @@
+name: The Farplane
+prefix: Yin
+members:
+  - name: renderme65
+    uuid: 5be48ae3-82f4-4f4f-baf1-c26fcbe1788a
+    rank: CHIEF
+    contributed: 0
+    joined: '2019-05-13T00:01:52.787Z'
+    joinedFriendly: May 13th 2019
+  - name: ekhoecho
+    uuid: e79f3f27-2168-44dc-ae46-50522ec71ffb
+    rank: CAPTAIN
+    contributed: 0
+    joined: '2019-05-15T20:41:57.005Z'
+    joinedFriendly: May 15th 2019
+  - name: ojomFox
+    uuid: 33b6a693-db57-4b3f-b6df-d0772876994f
+    rank: OWNER
+    contributed: 170310013
+    joined: '2019-05-13T00:01:40.211Z'
+    joinedFriendly: May 13th 2019
+  - name: MrBartusekXD
+    uuid: 0edc3eb6-74d8-49b6-8b2a-3c0782183e3a
+    rank: CHIEF
+    contributed: 3171616
+    joined: '2020-07-16T18:42:57.175Z'
+    joinedFriendly: Jul 16th 2020
+  - name: RhodieCub
+    uuid: 55309fc6-413c-4e05-8394-52f28ae41909
+    rank: CAPTAIN
+    contributed: 6959002
+    joined: '2020-07-19T22:37:32.505Z'
+    joinedFriendly: Jul 19th 2020
+  - name: candy4cats
+    uuid: d5ad7f3b-074e-4035-a9a9-6f03d03fd023
+    rank: CAPTAIN
+    contributed: 890307
+    joined: '2020-07-20T18:21:00.759Z'
+    joinedFriendly: Jul 20th 2020
+  - name: Aequinoctiale
+    uuid: 44fea163-1c5a-4cf3-9b80-3f13b75149b4
+    rank: CAPTAIN
+    contributed: 0
+    joined: '2020-07-20T18:31:29.430Z'
+    joinedFriendly: Jul 20th 2020
+  - name: Morganhydra
+    uuid: e9b2a02b-f07c-42fb-aa0a-210834dc1e6e
+    rank: CHIEF
+    contributed: 545436577
+    joined: '2020-07-21T00:41:24.835Z'
+    joinedFriendly: Jul 21st 2020
+  - name: TheNameIsBuch
+    uuid: 5bff02a5-99b7-4327-bc34-d1a77fb2dbbb
+    rank: CAPTAIN
+    contributed: 684978
+    joined: '2020-07-21T18:30:43.122Z'
+    joinedFriendly: Jul 21st 2020
+  - name: Onif
+    uuid: 3f275026-3fc3-4ae9-9d47-45f584d11d57
+    rank: CAPTAIN
+    contributed: 8470170
+    joined: '2020-07-21T18:45:11.100Z'
+    joinedFriendly: Jul 21st 2020
+  - name: leonardonox
+    uuid: aadbb891-60b6-4252-a604-8a369f878ec8
+    rank: CAPTAIN
+    contributed: 21741
+    joined: '2020-07-21T21:50:15.064Z'
+    joinedFriendly: Jul 21st 2020
+  - name: WhereDaLambSauce
+    uuid: 3b113e3f-da84-4d72-8298-e8d363e5b1e2
+    rank: CAPTAIN
+    contributed: 69720519
+    joined: '2020-07-23T00:45:05.789Z'
+    joinedFriendly: Jul 23rd 2020
+  - name: 1rng
+    uuid: acbfa24c-7775-4aea-aa1e-a2a5aea18066
+    rank: CAPTAIN
+    contributed: 0
+    joined: '2020-07-23T17:27:59.437Z'
+    joinedFriendly: Jul 23rd 2020
+  - name: Galeath
+    uuid: 9364f2d4-316a-4fa4-b47d-6d5ff7785251
+    rank: CHIEF
+    contributed: 37000990
+    joined: '2020-07-24T03:35:51.274Z'
+    joinedFriendly: Jul 24th 2020
+  - name: Isaxaphone
+    uuid: 79389115-2b1a-4e37-aa02-ec0a01814668
+    rank: CAPTAIN
+    contributed: 0
+    joined: '2020-07-26T19:58:02.570Z'
+    joinedFriendly: Jul 26th 2020
+  - name: DuckNorris1
+    uuid: b3cf8d36-bf1c-450b-bb6c-c224ed4432e1
+    rank: CAPTAIN
+    contributed: 7377411
+    joined: '2020-07-26T20:25:42.995Z'
+    joinedFriendly: Jul 26th 2020
+  - name: imrix123
+    uuid: 2af9e14f-cbc2-4dd8-8eef-8dd9e67cccfa
+    rank: CAPTAIN
+    contributed: 154193
+    joined: '2020-07-26T20:33:00.243Z'
+    joinedFriendly: Jul 26th 2020
+  - name: PiSquared
+    uuid: fc86c444-93ca-452c-8d0f-11be4a7cf00c
+    rank: CAPTAIN
+    contributed: 14115004
+    joined: '2020-08-04T01:48:54.157Z'
+    joinedFriendly: Aug 4th 2020
+  - name: Slynnder
+    uuid: 029457dd-bbc3-489c-8af9-f303b7818c05
+    rank: CAPTAIN
+    contributed: 18212721
+    joined: '2020-08-06T04:16:14.954Z'
+    joinedFriendly: Aug 6th 2020
+  - name: Zeelen
+    uuid: e5b84a62-affe-4154-978d-3563b0f236ef
+    rank: CAPTAIN
+    contributed: 11909486
+    joined: '2020-08-22T20:20:00.360Z'
+    joinedFriendly: Aug 22nd 2020
+  - name: wqffy
+    uuid: c7eb9263-36c0-48fc-b7e4-cd3da3ad231e
+    rank: CAPTAIN
+    contributed: 576234
+    joined: '2020-09-03T02:22:18.370Z'
+    joinedFriendly: Sep 3rd 2020
+  - name: _Dl3G0_
+    uuid: d0b2822a-d968-4958-af73-5ec1342a9c80
+    rank: CAPTAIN
+    contributed: 10713326
+    joined: '2020-09-07T06:57:52.521Z'
+    joinedFriendly: Sep 7th 2020
+  - name: geometrysux
+    uuid: bf1027c3-89fd-4cd1-910c-0ae2702419bf
+    rank: CAPTAIN
+    contributed: 33627
+    joined: '2020-09-26T02:00:42.463Z'
+    joinedFriendly: Sep 26th 2020
+  - name: _ClaudzHero4
+    uuid: 25b07811-479b-44e1-b88c-a9f527bbcbe4
+    rank: CAPTAIN
+    contributed: 3357
+    joined: '2020-11-08T17:46:12.237Z'
+    joinedFriendly: Nov 8th 2020
+  - name: _dennex_
+    uuid: 337ecb0e-2276-4b2c-83a0-a8c8ad3aa014
+    rank: CAPTAIN
+    contributed: 549437
+    joined: '2020-12-04T19:29:05.801Z'
+    joinedFriendly: Dec 4th 2020
+  - name: NatYlath
+    uuid: 7c41f9f3-ecdf-4507-9baa-18635267cb6e
+    rank: CAPTAIN
+    contributed: 0
+    joined: '2020-12-04T20:32:19.524Z'
+    joinedFriendly: Dec 4th 2020
+  - name: RyLi_
+    uuid: 4df264be-2f7d-42dc-9609-7b4ec9eaede3
+    rank: CAPTAIN
+    contributed: 0
+    joined: '2020-07-26T19:55:47.224Z'
+    joinedFriendly: Jul 26th 2020
+  - name: Galram
+    uuid: 447e87aa-b5b1-4a80-ad66-3c1a56bd141a
+    rank: CAPTAIN
+    contributed: 45192
+    joined: '2020-12-25T23:57:44.223Z'
+    joinedFriendly: Dec 25th 2020
+  - name: cupcake1220
+    uuid: 5916c33a-25ea-4c02-a414-90e919286e80
+    rank: CAPTAIN
+    contributed: 0
+    joined: '2020-12-26T01:10:47.717Z'
+    joinedFriendly: Dec 26th 2020
+  - name: KramDogg28
+    uuid: 8cdab455-28b8-4459-b41b-a090b616fd80
+    rank: CAPTAIN
+    contributed: 8984285
+    joined: '2020-12-26T01:13:18.382Z'
+    joinedFriendly: Dec 26th 2020
+  - name: cat_miester
+    uuid: 318d3cb5-9f06-40cb-a0e4-b1228a608817
+    rank: CAPTAIN
+    contributed: 5332302
+    joined: '2020-12-26T02:37:08.521Z'
+    joinedFriendly: Dec 26th 2020
+  - name: FreddyThatGuy
+    uuid: cccb2e50-c714-4e21-86c4-cba01d9da4cb
+    rank: CAPTAIN
+    contributed: 0
+    joined: '2020-12-26T19:02:31.317Z'
+    joinedFriendly: Dec 26th 2020
+  - name: grace69
+    uuid: 12e67f43-95d9-4639-99e5-819b15046a7c
+    rank: CAPTAIN
+    contributed: 2314217
+    joined: '2020-12-27T22:43:09.520Z'
+    joinedFriendly: Dec 27th 2020
+  - name: irene6969
+    uuid: 6dc7dc6e-7ea3-4164-8774-7bb7ad3e7d4b
+    rank: CAPTAIN
+    contributed: 0
+    joined: '2020-12-27T22:43:15.784Z'
+    joinedFriendly: Dec 27th 2020
+  - name: SkyLuca
+    uuid: 62dd87ab-2a85-4eae-8d8a-ef7d8c9d597b
+    rank: CAPTAIN
+    contributed: 9126358
+    joined: '2020-12-27T22:51:30.786Z'
+    joinedFriendly: Dec 27th 2020
+  - name: shvy
+    uuid: 4ee3893e-21bf-4896-b53f-0707794afedc
+    rank: CAPTAIN
+    contributed: 12808753
+    joined: '2020-12-28T00:50:49.354Z'
+    joinedFriendly: Dec 28th 2020
+  - name: ShawarmaOnTop
+    uuid: c75c9c45-4a36-4fc8-a4d0-fce922997494
+    rank: CHIEF
+    contributed: 12211818
+    joined: '2020-07-20T22:51:40.973Z'
+    joinedFriendly: Jul 20th 2020
+xp: 3.5
+level: 48
+created: '2019-05-13T00:01:24.280Z'
+createdFriendly: May 13th 2019
+territories: 0
+banner:
+  base: BLUE
+  tier: 1
+  layers:
+    - colour: WHITE
+      pattern: GRADIENT
+    - colour: BLUE
+      pattern: SKULL
+    - colour: BLUE
+      pattern: BORDER
+request:
+  timestamp: 1616378365
+  version: 1

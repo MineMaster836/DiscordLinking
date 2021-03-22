@@ -2,6 +2,7 @@ package me.discordlinking;
 
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
+import net.dv8tion.jda.api.entities.Activity;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
@@ -33,9 +34,9 @@ public class SpigotListeners implements Listener {
         try {
             WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
             WebhookMessageBuilder builder = new WebhookMessageBuilder();
-            builder.setUsername(e.getPlayer().getDisplayName());
-            builder.setAvatarUrl("https://minotar.net/helm/playerUUID".replace("playerUUID", e.getPlayer().getUniqueId().toString().replaceAll("-", "")));
-            builder.setContent(message);
+            builder.setUsername(ChatColor.stripColor(e.getPlayer().getDisplayName()));
+            builder.setAvatarUrl("https://crafatar.com/avatars/playerUUID?overlay".replace("playerUUID", e.getPlayer().getUniqueId().toString().replaceAll("-", "")));
+            builder.setContent(ChatColor.stripColor(message));
             client.send(builder.build());
             client.close();
         } catch (Exception ex) {
@@ -49,9 +50,11 @@ public class SpigotListeners implements Listener {
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
         builder.setUsername("Server >> Players");
         builder.setAvatarUrl(DiscordBot.avatarURL);
-        builder.setContent(String.format("*[+] %s*", e.getPlayer().getDisplayName()));
+        builder.setContent(String.format("*[+] %s*", ChatColor.stripColor(e.getPlayer().getDisplayName())));
         client.send(builder.build());
         client.close();
+        DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() + "/"
+                + Bukkit.getServer().getMaxPlayers() + " Players"));
     }
 
     @EventHandler
@@ -60,9 +63,11 @@ public class SpigotListeners implements Listener {
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
         builder.setUsername("Server >> Players");
         builder.setAvatarUrl(DiscordBot.avatarURL);
-        builder.setContent(String.format("*[-] %s*", e.getPlayer().getDisplayName()));
+        builder.setContent(String.format("*[-] %s*", ChatColor.stripColor(e.getPlayer().getDisplayName())));
         client.send(builder.build());
         client.close();
+        DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() + "/"
+                + Bukkit.getServer().getMaxPlayers() + " Players"));
     }
 
     @EventHandler
@@ -72,7 +77,7 @@ public class SpigotListeners implements Listener {
             WebhookMessageBuilder builder = new WebhookMessageBuilder();
             builder.setUsername("Player Death");
             builder.setAvatarUrl(DiscordBot.avatarURL);
-            builder.setContent(e.getDeathMessage());
+            builder.setContent(ChatColor.stripColor(e.getDeathMessage()));
             client.send(builder.build());
             client.close();
         }
@@ -109,7 +114,7 @@ public class SpigotListeners implements Listener {
                     WebhookMessageBuilder builder = new WebhookMessageBuilder();
                     builder.setUsername("Server >> Players");
                     builder.setAvatarUrl(DiscordBot.avatarURL);
-                    builder.setContent(e.getCommand());
+                    builder.setContent(ChatColor.stripColor(e.getCommand()));
                     client.send(builder.build());
                     client.close();
                 }
