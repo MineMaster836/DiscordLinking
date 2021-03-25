@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.Permission;
+import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -23,7 +24,6 @@ import org.jetbrains.annotations.NotNull;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.util.*;
 import java.util.List;
 
@@ -92,6 +92,8 @@ public class DiscordBot extends ListenerAdapter {
                     .addField("^^^^^^^^^", "Do >list [page] to get the rest of the players", false)
                     .setColor(new Color(0x70e992));
             event.getMessage().getChannel().sendMessage(playerEmbed.build()).queue();
+            DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() + "/"
+                    + Bukkit.getServer().getMaxPlayers() + " Players"));
         } else if (event.getMessage().getContentStripped().contains((">disablebot").toLowerCase()) && event.getMessage().getContentRaw().charAt(0) == '>' && event.getMember().hasPermission(Permission.MANAGE_CHANNEL)) {
             sendMessage = false;
             DiscordBot.botEnabled = false;
@@ -100,7 +102,7 @@ public class DiscordBot extends ListenerAdapter {
             Bukkit.broadcastMessage(Formats.SUCCESS + memberName + " disabled MC Chat!");
             WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
             WebhookMessageBuilder builder = new WebhookMessageBuilder();
-            builder.setUsername("Server >> Players");
+            builder.setUsername("Server");
             builder.setAvatarUrl(DiscordBot.avatarURL);
             builder.setContent(memberName + " disabled MC Chat!");
             client.send(builder.build());
@@ -113,7 +115,7 @@ public class DiscordBot extends ListenerAdapter {
             Bukkit.broadcastMessage(Formats.SUCCESS + memberName + " enabled MC Chat!");
             WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
             WebhookMessageBuilder builder = new WebhookMessageBuilder();
-            builder.setUsername("Server >> Players");
+            builder.setUsername("Server");
             builder.setAvatarUrl(DiscordBot.avatarURL);
             builder.setContent(memberName + " enabled MC Chat!");
             client.send(builder.build());
@@ -158,8 +160,8 @@ public class DiscordBot extends ListenerAdapter {
                 String userColourHex = String.format("#%02x%02x%02x", r, g, b);
 
                 //send a message in the Minecraft chat "[Discord] <Role> | <Username>: <msg>"
-                Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', String.format("%s &7| &l%s &r%s &8>> &r%s",
-                        ChatColor.of("#8EA0E1") + "Discord", ChatColor.of(userColourHex) + userRole.getName(), ChatColor.of(userColourHex) + member.getEffectiveName(),
+                Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', String.format("%s &7| %s &r%s &8>> &r%s",
+                        ChatColor.of("#8EA0E1") + "Discord", ChatColor.of(userColourHex) + "" + ChatColor.BOLD + userRole.getName(), ChatColor.of(userColourHex) + member.getEffectiveName(),
                         event.getMessage().getContentRaw())));
             }
         }

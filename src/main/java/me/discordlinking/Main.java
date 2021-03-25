@@ -61,6 +61,9 @@ public class Main extends JavaPlugin {
             return;
         }
         System.out.println("This is being loaded!");
+
+        DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() + "/"
+                + Bukkit.getServer().getMaxPlayers() + " Players"));
     }
 
     @Override

@@ -44,7 +44,7 @@ public class EnableBotCommand implements CommandExecutor {
         Bukkit.broadcastMessage(Formats.SUCCESS + playerName + " enabled MC Chat!");
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        builder.setUsername("Server >> Players");
+        builder.setUsername("Server");
         builder.setAvatarUrl(DiscordBot.avatarURL);
         builder.setContent(playerName + " enabled MC Chat!");
         client.send(builder.build());

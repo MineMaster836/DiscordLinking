@@ -48,9 +48,9 @@ public class SpigotListeners implements Listener {
     public void onPlayerJoin(PlayerJoinEvent e) {
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        builder.setUsername("Server >> Players");
+        builder.setUsername("Server");
         builder.setAvatarUrl(DiscordBot.avatarURL);
-        builder.setContent(String.format("*[+] %s*", ChatColor.stripColor(e.getPlayer().getDisplayName())));
+        builder.setContent(ChatColor.stripColor(e.getJoinMessage()));
         client.send(builder.build());
         client.close();
         DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() + "/"
@@ -61,12 +61,12 @@ public class SpigotListeners implements Listener {
     public void onPlayerQuit(PlayerQuitEvent e) {
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        builder.setUsername("Server >> Players");
+        builder.setUsername("Server");
         builder.setAvatarUrl(DiscordBot.avatarURL);
-        builder.setContent(String.format("*[-] %s*", ChatColor.stripColor(e.getPlayer().getDisplayName())));
+        builder.setContent(ChatColor.stripColor(e.getQuitMessage()));
         client.send(builder.build());
         client.close();
-        DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() + "/"
+        DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() - 1 + "/"
                 + Bukkit.getServer().getMaxPlayers() + " Players"));
     }
 
@@ -99,20 +99,20 @@ public class SpigotListeners implements Listener {
             if (!serverChat) {
                 e.setCancelled(true);
                 serverChat = true;
-                e.getSender().sendMessage("Server Chat Enabled");
+                e.getSender().sendMessage("CONSOLE Chat Enabled");
             } else {
                 e.setCancelled(true);
                 serverChat = false;
-                e.getSender().sendMessage("Server Chat Disabled");
+                e.getSender().sendMessage("CONSOLE Chat Disabled");
             }
         } else if (serverChat) {
             e.setCancelled(true);
             if (e.getSender().getName().equalsIgnoreCase("CONSOLE")) {
-                Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&2Server &7>>&r " + e.getCommand()));
+                Bukkit.broadcastMessage(ChatColor.translateAlternateColorCodes('&', "&2CONSOLE &7>>&r " + e.getCommand()));
                 if (DiscordBot.botEnabled) {
                     WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
                     WebhookMessageBuilder builder = new WebhookMessageBuilder();
-                    builder.setUsername("Server >> Players");
+                    builder.setUsername("CONSOLE");
                     builder.setAvatarUrl(DiscordBot.avatarURL);
                     builder.setContent(ChatColor.stripColor(e.getCommand()));
                     client.send(builder.build());
