@@ -54,7 +54,6 @@ public class Main extends JavaPlugin {
     @Override
     public void onLoad() {
         DiscordBot bot = new DiscordBot();
-
         try {
             bot.startup();
         } catch (LoginException e) {

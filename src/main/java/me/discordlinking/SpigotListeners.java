@@ -18,6 +18,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerCommandEvent;
 
+import java.text.Format;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +28,8 @@ public class SpigotListeners implements Listener {
     static boolean serverChat = false;
     private Message lastMessage = null;
     private UUID lastUUID = null;
+    private long lastTime = System.currentTimeMillis();
+    private static final long TIME_TO_APPEND = 20000;
     private final Object sync = new Object();
 
     public SpigotListeners(Main plugin) {
@@ -46,7 +49,7 @@ public class SpigotListeners implements Listener {
         final UUID uniqueId = e.getPlayer().getUniqueId();
         final String avatar = Formats.getAvatarFromUUID(uniqueId);
         synchronized (sync) {
-            boolean shouldRewrite = lastMessage == null || lastUUID == null || !lastUUID.equals(uniqueId);
+            boolean shouldRewrite = lastMessage == null || lastUUID == null || !lastUUID.equals(uniqueId) || System.currentTimeMillis() - TIME_TO_APPEND > lastTime;
             if (!shouldRewrite) {
                 List<MessageEmbed> embeds = lastMessage.getEmbeds();
                 if (embeds.isEmpty()) shouldRewrite = true;
@@ -56,7 +59,9 @@ public class SpigotListeners implements Listener {
                     else shouldRewrite = description.length() + message.length() > DiscordBot.MAX_MESSAGE_LENGTH;
                 }
             }
+
             if (shouldRewrite) {
+                // make a brand new message
                 embed = DiscordMessageUtils.createNewMessage(
                         ChatColor.stripColor(e.getPlayer().getDisplayName()),
                         avatar,
@@ -70,12 +75,14 @@ public class SpigotListeners implements Listener {
                                 synchronized (sync) {
                                     this.lastMessage = m;
                                     this.lastUUID = uniqueId;
+                                    this.lastTime = System.currentTimeMillis();
                                 }
                             }, failure -> {
                                 System.err.println("The discord bot cannot send messages to this channel");
                             }
                     );
             } else {
+                // edit an old message
                 List<MessageEmbed> embeds = lastMessage.getEmbeds();
                 String extra;
                 if (embeds.isEmpty()) {
@@ -93,6 +100,7 @@ public class SpigotListeners implements Listener {
                         (m) -> {
                             synchronized (sync) {
                                 this.lastMessage = m;
+                                this.lastTime = System.currentTimeMillis();
                             }
                         }, failure -> {
                             System.err.println("The discord bot cannot send messages to this channel");
@@ -104,11 +112,15 @@ public class SpigotListeners implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e) {
+        synchronized (sync) {
+            this.lastMessage = null;
+            this.lastUUID = null;
+        }
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        builder.setUsername("Server");
-        builder.setAvatarUrl(DiscordBot.avatarURL);
-        builder.setContent(ChatColor.stripColor(e.getJoinMessage()));
+        builder.setUsername("Login");
+        builder.setAvatarUrl(Formats.getAvatarFromUUID(e.getPlayer().getUniqueId()));
+        builder.setContent("```fix\n=\n" + ChatColor.stripColor(e.getJoinMessage()) + "\n```");
         client.send(builder.build());
         client.close();
         DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() + "/"
@@ -117,11 +129,15 @@ public class SpigotListeners implements Listener {
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent e) {
+        synchronized (sync) {
+            this.lastMessage = null;
+            this.lastUUID = null;
+        }
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        builder.setUsername("Server");
-        builder.setAvatarUrl(DiscordBot.avatarURL);
-        builder.setContent(ChatColor.stripColor(e.getQuitMessage()));
+        builder.setUsername("Disconnect");
+        builder.setAvatarUrl(Formats.getAvatarFromUUID(e.getPlayer().getUniqueId()));
+        builder.setContent("```fix\n" + ChatColor.stripColor(e.getQuitMessage()) + "\n=\n```");
         client.send(builder.build());
         client.close();
         DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() - 1 + "/"
@@ -130,12 +146,16 @@ public class SpigotListeners implements Listener {
 
     @EventHandler
     public void onPlayerDeath(PlayerDeathEvent e) {
+        synchronized (sync) {
+            this.lastMessage = null;
+            this.lastUUID = null;
+        }
         if (DiscordBot.showDeaths && DiscordBot.botEnabled) {
             WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
             WebhookMessageBuilder builder = new WebhookMessageBuilder();
             builder.setUsername("Player Death");
             builder.setAvatarUrl(Formats.getAvatarFromUUID(e.getEntity().getUniqueId()));
-            builder.setContent("```cs\n# "+ChatColor.stripColor(e.getDeathMessage())+"\n```");
+            builder.setContent("```cs\n# " + ChatColor.stripColor(e.getDeathMessage()) + "\n```");
             client.send(builder.build());
             client.close();
         }
@@ -145,6 +165,10 @@ public class SpigotListeners implements Listener {
     public void onPreCommand(PlayerCommandPreprocessEvent e) {
         String[] args = e.getMessage().split(" ");
         if (args[0].startsWith("/reload") || args[0].startsWith("/rl")) {
+            synchronized (sync) {
+                this.lastMessage = null;
+                this.lastUUID = null;
+            }
             Main.isReloading("true");
         }
     }
@@ -178,6 +202,10 @@ public class SpigotListeners implements Listener {
                 }
             }
         } else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {
+            synchronized (sync) {
+                this.lastMessage = null;
+                this.lastUUID = null;
+            }
             Main.isReloading("true");
         }
     }

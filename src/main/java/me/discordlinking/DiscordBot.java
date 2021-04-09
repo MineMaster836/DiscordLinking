@@ -39,8 +39,10 @@ public class DiscordBot extends ListenerAdapter {
     public static boolean enableWynnApi;
     public static int MAX_MESSAGE_LENGTH = 2000;
     public static int chatColor;
+    public static DiscordBot instance;
 
     public DiscordBot() {
+        instance = this;
         File file = new File("plugins" + File.separator + "DiscordLinking" + File.separator + "config.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
         botToken = config.getString("discordBot.token");
@@ -53,6 +55,7 @@ public class DiscordBot extends ListenerAdapter {
     }
 
     public void startup() throws LoginException {
+        if (client != null) client.shutdown();
         JDABuilder builder = JDABuilder.createDefault(botToken);
         builder.addEventListeners(this);
         client = builder.build();
@@ -165,7 +168,7 @@ public class DiscordBot extends ListenerAdapter {
                 //send a message in the Minecraft chat "[Discord] <Role> | <Username>: <msg>"
                 Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', String.format("%s &7| %s &r%s &8>> &r%s",
                         ChatColor.of("#8EA0E1") + "Discord", ChatColor.of(userColourHex) + "" + ChatColor.BOLD + userRole.getName(), ChatColor.of(userColourHex) + member.getEffectiveName(),
-                        event.getMessage().getContentRaw())));
+                        event.getMessage().getContentDisplay())));
             }
         }
     }
