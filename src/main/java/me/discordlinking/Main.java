@@ -2,10 +2,7 @@ package me.discordlinking;
 
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
-import me.discordlinking.commands.DisableBotCommand;
-import me.discordlinking.commands.DiscordCommand;
-import me.discordlinking.commands.EnableBotCommand;
-import me.discordlinking.commands.ReloadCommand;
+import me.discordlinking.commands.*;
 import net.dv8tion.jda.api.entities.Activity;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -30,6 +27,7 @@ public class Main extends JavaPlugin {
         new EnableBotCommand(this);
         new ReloadCommand(this);
         new DiscordCommand(this);
+        new DMCommand(this);
 
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();

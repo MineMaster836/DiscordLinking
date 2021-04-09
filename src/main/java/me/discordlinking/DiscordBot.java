@@ -5,6 +5,7 @@ import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.bed0.jWynn.WynncraftAPI;
 import me.bed0.jWynn.api.v1.guild.WynncraftGuild;
 import me.bed0.jWynn.api.v1.guild.WynncraftGuildMember;
+import me.discordlinking.commands.DMCommand;
 import me.discordlinking.reactions.AllReactables;
 import me.discordlinking.utils.Formats;
 import net.dv8tion.jda.api.EmbedBuilder;
@@ -17,6 +18,8 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -104,7 +107,12 @@ public class DiscordBot extends ListenerAdapter {
             List<Role> roles = member.getRoles();
 
             if (roles.size() == 0) {
-                Bukkit.getServer().broadcastMessage(Formats.getDiscordToServerMessage(event.getMessage().getContentDisplay(), null, null, null, null,event.getAuthor()));
+                net.md_5.bungee.api.chat.TextComponent message = new TextComponent();
+                final User author = event.getAuthor();
+                String toSend = Formats.getDiscordToServerMessage(event.getMessage().getContentDisplay(), null, null, null, null, event.getAuthor());
+                message.setText(toSend);
+                message.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/" + DMCommand.commandName + " " + author.getIdLong() + " "));
+                Bukkit.getServer().spigot().broadcast(message);
             } else {
                 Role userRole = roles.get(0);
                 if (userRole.getName().equalsIgnoreCase("*") || userRole.getName().equalsIgnoreCase("admin") || userRole.getName().equalsIgnoreCase("moderator")) {
@@ -122,7 +130,12 @@ public class DiscordBot extends ListenerAdapter {
                 } else userColourHex = null;
 
                 //send a message in the Minecraft chat "[Discord] <Role> | <Username>: <msg>"
-                Bukkit.getServer().broadcastMessage(Formats.getDiscordToServerMessage(event.getMessage().getContentDisplay(), null, member, userRole, userColourHex,event.getAuthor()));
+                net.md_5.bungee.api.chat.TextComponent message = new TextComponent();
+                final User author = event.getAuthor();
+                String toSend = Formats.getDiscordToServerMessage(event.getMessage().getContentDisplay(), null, member, userRole, userColourHex, author);
+                message.setText(toSend);
+                message.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/" + DMCommand.commandName + " " + author.getIdLong() + " "));
+                Bukkit.getServer().spigot().broadcast(message);
             }
         }
     }

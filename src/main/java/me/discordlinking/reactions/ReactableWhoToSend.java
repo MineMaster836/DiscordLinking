@@ -1,18 +1,25 @@
 package me.discordlinking.reactions;
 
+import me.discordlinking.DiscordBot;
 import me.discordlinking.Main;
+import me.discordlinking.commands.DMCommand;
 import me.discordlinking.utils.Formats;
+import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.MessageBuilder;
 import net.dv8tion.jda.api.entities.Message;
-import net.dv8tion.jda.api.entities.MessageReaction;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
+import java.util.List;
 
 public class ReactableWhoToSend implements ReactableMessage {
     private static final long TIME_TO_OLD = 1000 * 60 * 5;
@@ -53,9 +60,9 @@ public class ReactableWhoToSend implements ReactableMessage {
             content.append("Who should I send this too?");
             final int max = Math.min(playerNames.size(), (page + 1) * PLAYERS_PER_PAGE);
             for (int i = page * PLAYERS_PER_PAGE; i < max; i++) {
-                content.append(MyReactionsKnowledge.emojiAlphabet.get(i)).append(" ").append("**").append(playerNames.get(i)).append("**");
+                content.append("\n").append(MyReactionsKnowledge.emojiAlphabet.get(i)).append(" ").append("**").append(playerNames.get(i)).append("**");
             }
-            content.append("------------------");
+            content.append("\n------------------");
             int allowedSize = 1900 - content.length();
             final String msg;
             if (this.toSend.length() >= allowedSize) {
@@ -86,12 +93,27 @@ public class ReactableWhoToSend implements ReactableMessage {
             if (player == null) {
                 message.editMessage("That player is no longer online.").queue();
             } else {
-                message.editMessage("Sent!").queue();
+                message.editMessage(sentMessage(player, toSend)).queue();
                 message.addReaction(MyReactionsKnowledge.KnownReaction.CHECKMARK.getEmoji()).queue();
                 AllReactables.removeMessage(this);
-                player.sendMessage(Formats.getDiscordToServerMessage(toSend, "Private Message", null, null, null, author));
+                TextComponent message = new TextComponent();
+                message.setText(ChatColor.GRAY + "[" + ChatColor.BLUE + author.getName() + ChatColor.DARK_GRAY + " -> " + ChatColor.BLUE + player.getName() + ChatColor.GRAY + "] " + ChatColor.WHITE + toSend);
+                message.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/" + DMCommand.commandName + " " + author.getIdLong() + " "));
+                player.spigot().sendMessage(message);
             }
         }
+    }
+
+    private Message sentMessage(Player player, String toSend) {
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setAuthor(player.getName(), null, Formats.getAvatarFromUUID(player.getUniqueId()));
+        embed.setDescription(toSend);
+        embed.setTitle("Outgoing");
+        embed.setColor(DiscordBot.chatColor);
+        MessageBuilder msg = new MessageBuilder();
+        msg.setContent(".");
+        msg.setEmbed(embed.build());
+        return msg.build();
     }
 
     private void left() {

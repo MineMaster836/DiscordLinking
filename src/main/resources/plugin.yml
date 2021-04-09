@@ -22,6 +22,9 @@ commands:
     description: basic command discordLinking
     permission: discordlinking.discord
 
+  discord_dm:
+    description: dms a user through discord
+
 permissions:
   discordlinking.disable:
     default: op

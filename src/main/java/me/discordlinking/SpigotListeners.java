@@ -171,11 +171,6 @@ public class SpigotListeners implements Listener {
                 this.lastUUID = null;
             }
             Main.isReloading("true");
-            try {
-                DiscordBot.instance.startup();
-            } catch (LoginException loginException) {
-                System.out.println("[DiscordLinking] The Bot has not logged in!");
-            }
         }
     }
 
