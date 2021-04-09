@@ -37,6 +37,8 @@ public class DiscordBot extends ListenerAdapter {
     public static String avatarURL;
     public static boolean showDeaths;
     public static boolean enableWynnApi;
+    public static int MAX_MESSAGE_LENGTH = 2000;
+    public static int chatColor;
 
     public DiscordBot() {
         File file = new File("plugins" + File.separator + "DiscordLinking" + File.separator + "config.yml");
@@ -47,7 +49,7 @@ public class DiscordBot extends ListenerAdapter {
         avatarURL = config.getString("webhook.avatarURL");
         showDeaths = config.getBoolean("options.showDeaths");
         enableWynnApi = config.getBoolean("options.wynnApi");
-
+        chatColor = config.getInt("discordBot.color");
     }
 
     public void startup() throws LoginException {
