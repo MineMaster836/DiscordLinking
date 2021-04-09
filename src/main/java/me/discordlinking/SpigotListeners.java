@@ -4,6 +4,7 @@ import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.discordlinking.utils.ChatUtils;
 import me.discordlinking.utils.DiscordMessageUtils;
+import me.discordlinking.utils.Formats;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
 import net.dv8tion.jda.api.entities.MessageEmbed;
@@ -43,7 +44,7 @@ public class SpigotListeners implements Listener {
         }
         MessageEmbed embed;
         final UUID uniqueId = e.getPlayer().getUniqueId();
-        final String avatar = "https://crafatar.com/avatars/playerUUID?overlay".replace("playerUUID", uniqueId.toString().replaceAll("-", ""));
+        final String avatar = Formats.getAvatarFromUUID(uniqueId);
         synchronized (sync) {
             boolean shouldRewrite = lastMessage == null || lastUUID == null || !lastUUID.equals(uniqueId);
             if (!shouldRewrite) {
@@ -133,8 +134,8 @@ public class SpigotListeners implements Listener {
             WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
             WebhookMessageBuilder builder = new WebhookMessageBuilder();
             builder.setUsername("Player Death");
-            builder.setAvatarUrl(DiscordBot.avatarURL);
-            builder.setContent(ChatColor.stripColor(e.getDeathMessage()));
+            builder.setAvatarUrl(Formats.getAvatarFromUUID(e.getEntity().getUniqueId()));
+            builder.setContent("```cs\n# "+ChatColor.stripColor(e.getDeathMessage())+"\n```");
             client.send(builder.build());
             client.close();
         }
@@ -143,7 +144,7 @@ public class SpigotListeners implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPreCommand(PlayerCommandPreprocessEvent e) {
         String[] args = e.getMessage().split(" ");
-        if (args[0].equalsIgnoreCase("/reload") || args[0].equalsIgnoreCase("/rl")) {
+        if (args[0].startsWith("/reload") || args[0].startsWith("/rl")) {
             Main.isReloading("true");
         }
     }
