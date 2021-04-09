@@ -18,6 +18,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerCommandEvent;
 
+import javax.security.auth.login.LoginException;
 import java.text.Format;
 import java.util.Arrays;
 import java.util.List;
@@ -164,12 +165,17 @@ public class SpigotListeners implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPreCommand(PlayerCommandPreprocessEvent e) {
         String[] args = e.getMessage().split(" ");
-        if (args[0].startsWith("/reload") || args[0].startsWith("/rl")) {
+        if (args[0].equalsIgnoreCase("/reload") || args[0].equalsIgnoreCase("/rl")) {
             synchronized (sync) {
                 this.lastMessage = null;
                 this.lastUUID = null;
             }
             Main.isReloading("true");
+            try {
+                DiscordBot.instance.startup();
+            } catch (LoginException loginException) {
+                System.out.println("[DiscordLinking] The Bot has not logged in!");
+            }
         }
     }
 

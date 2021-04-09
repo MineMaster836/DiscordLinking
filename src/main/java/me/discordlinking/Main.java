@@ -16,8 +16,15 @@ import java.io.IOException;
 
 public class Main extends JavaPlugin {
 
+    private static Main instance;
+
+    public static Main get() {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
+        instance = this;
         new SpigotListeners(this);
         new DisableBotCommand(this);
         new EnableBotCommand(this);
