@@ -2,6 +2,7 @@ package me.discordlinking;
 
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
+import me.discordlinking.utils.ChatUtils;
 import net.dv8tion.jda.api.entities.Activity;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;

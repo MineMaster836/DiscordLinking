@@ -1,6 +1,8 @@
-package me.discordlinking;
+package me.discordlinking.commands;
 
-import org.bukkit.Bukkit;
+import me.discordlinking.DiscordBot;
+import me.discordlinking.Main;
+import me.discordlinking.utils.Formats;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

@@ -1,4 +1,4 @@
-package me.discordlinking;
+package me.discordlinking.utils;
 
 import net.md_5.bungee.api.ChatColor;
 

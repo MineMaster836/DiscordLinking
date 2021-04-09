@@ -5,6 +5,7 @@ import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.bed0.jWynn.WynncraftAPI;
 import me.bed0.jWynn.api.v1.guild.WynncraftGuild;
 import me.bed0.jWynn.api.v1.guild.WynncraftGuildMember;
+import me.discordlinking.utils.Formats;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
