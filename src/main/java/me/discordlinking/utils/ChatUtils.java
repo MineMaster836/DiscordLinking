@@ -1,5 +1,6 @@
-package me.discordlinking;
+package me.discordlinking.utils;
 
+import me.discordlinking.DiscordBot;
 import net.dv8tion.jda.api.entities.User;
 
 import java.util.List;

@@ -15,7 +15,7 @@ repositories {
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.0'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
-    implementation fileTree(dir: 'libs', include: ['spigot.jar'])
+    compileOnly fileTree(dir: 'libs', include: ['spigot.jar'])
     compile ('net.dv8tion:JDA:4.2.0_229') {
         exclude module: 'opus-java'
     }
@@ -32,5 +32,5 @@ targetCompatibility = 1.8
 
 shadowJar{
     archiveFileName = "${baseName}.${extension}"
-    destinationDirectory = file("C:\\Users\\liamp\\Desktop\\MC Server\\plugins")
+    destinationDirectory = file("C:\\Users\\Aaron\\Desktop\\server\\plugins")
 }

@@ -1,5 +1,7 @@
-package me.discordlinking;
+package me.discordlinking.commands;
 
+import me.discordlinking.DiscordBot;
+import me.discordlinking.utils.Formats;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,7 +14,6 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
-import java.io.IOException;
 
 public class DiscordCommand implements CommandExecutor {
     public DiscordCommand(JavaPlugin plugin) {

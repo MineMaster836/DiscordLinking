@@ -1,7 +1,9 @@
-package me.discordlinking;
+package me.discordlinking.commands;
 
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
+import me.discordlinking.DiscordBot;
+import me.discordlinking.utils.Formats;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

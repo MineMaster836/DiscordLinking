@@ -2,6 +2,7 @@ package me.discordlinking;
 
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
+import me.discordlinking.commands.*;
 import net.dv8tion.jda.api.entities.Activity;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -12,13 +13,21 @@ import java.io.IOException;
 
 public class Main extends JavaPlugin {
 
+    private static Main instance;
+
+    public static Main get() {
+        return instance;
+    }
+
     @Override
     public void onEnable() {
+        instance = this;
         new SpigotListeners(this);
         new DisableBotCommand(this);
         new EnableBotCommand(this);
         new ReloadCommand(this);
         new DiscordCommand(this);
+        new DMCommand(this);
 
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
@@ -50,7 +59,6 @@ public class Main extends JavaPlugin {
     @Override
     public void onLoad() {
         DiscordBot bot = new DiscordBot();
-
         try {
             bot.startup();
         } catch (LoginException e) {
