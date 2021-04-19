@@ -18,6 +18,7 @@ import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.chat.ClickEvent;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
@@ -107,10 +108,8 @@ public class DiscordBot extends ListenerAdapter {
             List<Role> roles = member.getRoles();
 
             if (roles.size() == 0) {
-                net.md_5.bungee.api.chat.TextComponent message = new TextComponent();
                 final User author = event.getAuthor();
-                String toSend = Formats.getDiscordToServerMessage(event.getMessage().getContentDisplay(), null, null, null, null, event.getAuthor());
-                message.setText(toSend);
+                TextComponent message = Formats.getDiscordToServerMessage(event.getMessage().getContentDisplay(), null, null, null, null, event.getAuthor());
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/" + DMCommand.commandName + " " + author.getIdLong() + " "));
                 Bukkit.getServer().spigot().broadcast(message);
             } else {
@@ -130,10 +129,8 @@ public class DiscordBot extends ListenerAdapter {
                 } else userColourHex = null;
 
                 //send a message in the Minecraft chat "[Discord] <Role> | <Username>: <msg>"
-                net.md_5.bungee.api.chat.TextComponent message = new TextComponent();
                 final User author = event.getAuthor();
-                String toSend = Formats.getDiscordToServerMessage(event.getMessage().getContentDisplay(), null, member, userRole, userColourHex, author);
-                message.setText(toSend);
+                TextComponent message = Formats.getDiscordToServerMessage(event.getMessage().getContentDisplay(), null, member, userRole, userColourHex, author);
                 message.setClickEvent(new ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, "/" + DMCommand.commandName + " " + author.getIdLong() + " "));
                 Bukkit.getServer().spigot().broadcast(message);
             }
