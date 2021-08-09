@@ -114,9 +114,11 @@ public class DiscordBot extends ListenerAdapter {
                 Bukkit.getServer().spigot().broadcast(message);
             } else {
                 Role userRole = roles.get(0);
-                if (userRole.getName().equalsIgnoreCase("*") || userRole.getName().equalsIgnoreCase("admin") || userRole.getName().equalsIgnoreCase("moderator")) {
+                //todo make this changeable in config
+
+                /* if (userRole.getName().equalsIgnoreCase("*") || userRole.getName().equalsIgnoreCase("admin") || userRole.getName().equalsIgnoreCase("moderator")) {
                     userRole = roles.get(1);
-                }
+                } */
 
                 //gets the players discord role color and sets it to hexadecimal numbers
                 Color userColour = event.getMember().getColor();
@@ -184,7 +186,7 @@ public class DiscordBot extends ListenerAdapter {
             if (i >= playerList.size()) {
                 break;
             }
-            playerMessage += playerList.get(i).getDisplayName() + "\n";
+            playerMessage += ChatColor.stripColor(playerList.get(i).getDisplayName()) + "\n";
         }
         String author = "";
         if (playerList.size() != 1) {

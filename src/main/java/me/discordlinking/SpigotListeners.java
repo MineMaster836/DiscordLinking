@@ -18,8 +18,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.*;
 import org.bukkit.event.server.ServerCommandEvent;
 
-import javax.security.auth.login.LoginException;
-import java.text.Format;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -46,68 +44,16 @@ public class SpigotListeners implements Listener {
         if (message.contains("@")) {
             message = ChatColor.stripColor(ChatUtils.atifyMessage(message));
         }
-        MessageEmbed embed;
-        final UUID uniqueId = e.getPlayer().getUniqueId();
-        final String avatar = Formats.getAvatarFromUUID(uniqueId);
-        synchronized (sync) {
-            boolean shouldRewrite = lastMessage == null || lastUUID == null || !lastUUID.equals(uniqueId) || System.currentTimeMillis() - TIME_TO_APPEND > lastTime;
-            if (!shouldRewrite) {
-                List<MessageEmbed> embeds = lastMessage.getEmbeds();
-                if (embeds.isEmpty()) shouldRewrite = true;
-                else {
-                    final String description = embeds.get(0).getDescription();
-                    if (description == null) shouldRewrite = true;
-                    else shouldRewrite = description.length() + message.length() > DiscordBot.MAX_MESSAGE_LENGTH;
-                }
-            }
-
-            if (shouldRewrite) {
-                // make a brand new message
-                embed = DiscordMessageUtils.createNewMessage(
-                        ChatColor.stripColor(e.getPlayer().getDisplayName()),
-                        avatar,
-                        "",
-                        message
-                );
-                final TextChannel channel = DiscordBot.client.getTextChannelById(DiscordBot.channelID);
-                if (channel != null)
-                    channel.sendMessage(embed).queue(
-                            (m) -> {
-                                synchronized (sync) {
-                                    this.lastMessage = m;
-                                    this.lastUUID = uniqueId;
-                                    this.lastTime = System.currentTimeMillis();
-                                }
-                            }, failure -> {
-                                System.err.println("The discord bot cannot send messages to this channel");
-                            }
-                    );
-            } else {
-                // edit an old message
-                List<MessageEmbed> embeds = lastMessage.getEmbeds();
-                String extra;
-                if (embeds.isEmpty()) {
-                    extra = "";
-                } else {
-                    extra = embeds.get(0).getDescription();
-                }
-                embed = DiscordMessageUtils.createNewMessage(
-                        ChatColor.stripColor(e.getPlayer().getDisplayName()),
-                        avatar,
-                        extra,
-                        message
-                );
-                lastMessage.editMessage(embed).queue(
-                        (m) -> {
-                            synchronized (sync) {
-                                this.lastMessage = m;
-                                this.lastTime = System.currentTimeMillis();
-                            }
-                        }, failure -> {
-                            System.err.println("The discord bot cannot send messages to this channel");
-                        }
-                );
-            }
+        try {
+            WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
+            WebhookMessageBuilder builder = new WebhookMessageBuilder();
+            builder.setUsername(ChatColor.stripColor(e.getPlayer().getDisplayName()));
+            builder.setAvatarUrl("https://crafatar.com/avatars/playerUUID?overlay".replace("playerUUID", e.getPlayer().getUniqueId().toString().replaceAll("-", "")));
+            builder.setContent(ChatColor.stripColor(message));
+            client.send(builder.build());
+            client.close();
+        } catch (Exception ex) {
+            System.out.println("The bot cannot send messages to this channel");
         }
     }
 

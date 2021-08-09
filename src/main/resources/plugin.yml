@@ -1,7 +1,7 @@
 name: DiscordLinking
-version: "2.0"
+version: "2.1"
 api-version: "1.16"
-authors: [appleptr16, Liam (MineMaster836), Essentuan]
+authors: [appleptr16, KarmaLover, Essentuan]
 main: me.discordlinking.Main
 description: Links a discord channel to minecraft chat
 

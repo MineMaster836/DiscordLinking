@@ -31,7 +31,7 @@ public class Main extends JavaPlugin {
 
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        builder.setUsername("Server >> Status");
+        builder.setUsername("Server Status");
         builder.setAvatarUrl(DiscordBot.avatarURL);
 
         if (!isReloading("null")) {
@@ -78,7 +78,7 @@ public class Main extends JavaPlugin {
     public void onDisable() {
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        builder.setUsername("Server >> Status");
+        builder.setUsername("Server Status");
         builder.setAvatarUrl(DiscordBot.avatarURL);
 
         if (!isReloading("null")) {
