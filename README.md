@@ -1,1 +1,1 @@
-# DiscordLinking2.0
+# DiscordLinking
