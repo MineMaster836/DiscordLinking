@@ -7,7 +7,7 @@ import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DiscordDirectMessage {
+public class DiscordDirectMessage { // If i being honest i don't really know whats happening here lol. todo learn what this does and comment it
     private static Map<Long, DirectConversation> conversations = new HashMap<>();
 
     public static void dealWithMessage(MessageReceivedEvent event) {

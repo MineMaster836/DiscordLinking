@@ -3,7 +3,6 @@ package me.discordlinking;
 import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.discordlinking.utils.ChatUtils;
-import me.discordlinking.utils.DiscordMessageUtils;
 import me.discordlinking.utils.Formats;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.entities.Message;
@@ -36,7 +35,7 @@ public class SpigotListeners implements Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onAsyncChat(AsyncPlayerChatEvent e) {
         if (DiscordBot.channelID == 0 || !DiscordBot.botEnabled) return;
         String message = e.getMessage();

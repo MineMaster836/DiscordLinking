@@ -6,7 +6,7 @@ import net.dv8tion.jda.api.entities.User;
 import java.util.List;
 import java.util.Objects;
 
-public class ChatUtils {
+public class ChatUtils { // I also really dont know much about this class so... todo learn what this does and comment it
     public static String trimMessage(String message) {
         StringBuilder trimming = new StringBuilder(message);
         return trim(trimming);

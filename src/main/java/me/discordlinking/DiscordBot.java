@@ -186,7 +186,7 @@ public class DiscordBot extends ListenerAdapter {
             if (i >= playerList.size()) {
                 break;
             }
-            playerMessage += ChatColor.stripColor(playerList.get(i).getDisplayName()) + "\n";
+            playerMessage += playerList.get(i).getName() + "\n";
         }
         String author = "";
         if (playerList.size() != 1) {
