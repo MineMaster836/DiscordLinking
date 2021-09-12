@@ -52,7 +52,7 @@ public class DMCommand implements CommandExecutor {
             embed.setTitle("Incoming");
             embed.setColor(DiscordBot.chatColor);
             user.openPrivateChannel().queue(privateChannel -> {
-                privateChannel.sendMessage(embed.build()).queue(
+                privateChannel.sendMessageEmbeds(embed.build()).queue(
                         s -> {
                             TextComponent message = new TextComponent();
                             message.setText(ChatColor.GRAY + "[" + ChatColor.BLUE + commandSender.getName() + ChatColor.DARK_GRAY + " -> " + ChatColor.BLUE + user.getName() + ChatColor.GRAY + "] " + ChatColor.WHITE + msg);

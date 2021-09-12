@@ -31,6 +31,7 @@ import org.jetbrains.annotations.NotNull;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.List;
 
@@ -43,14 +44,12 @@ public class DiscordBot extends ListenerAdapter {
     public static String avatarURL;
     public static boolean showDeaths;
     public static boolean enableWynnApi;
-    public static final int MAX_REACTIONS = 20;
-    public static int MAX_MESSAGE_LENGTH = 2000;
     public static int chatColor;
     public static DiscordBot instance;
 
     public DiscordBot() {
         instance = this;
-        File file = new File("plugins" + File.separator + "DiscordLinking" + File.separator + "config.yml");
+        File file = new File(Main.get().getDataFolder(), "config.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
         botToken = config.getString("discordBot.token");
         channelID = config.getLong("discordBot.channel");
@@ -200,8 +199,6 @@ public class DiscordBot extends ListenerAdapter {
                 .setAuthor(author, null, "https://i.imgur.com/64R8O3D.png")
                 .addField("^^^^^^^^^", "Do >list [page] to get the rest of the players", false)
                 .setColor(new Color(0x70e992));
-        event.getMessage().getChannel().sendMessage(playerEmbed.build()).queue();
-        DiscordBot.client.getPresence().setActivity(Activity.watching(Bukkit.getServer().getOnlinePlayers().size() + "/"
-                + Bukkit.getServer().getMaxPlayers() + " Players"));
+        event.getMessage().getChannel().sendMessageEmbeds(playerEmbed.build()).queue();
     }
 }

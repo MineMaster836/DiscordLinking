@@ -1,6 +1,7 @@
 package me.discordlinking.commands;
 
 import me.discordlinking.DiscordBot;
+import me.discordlinking.Main;
 import me.discordlinking.utils.Formats;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -14,12 +15,17 @@ import org.jetbrains.annotations.NotNull;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
+import java.util.UUID;
+import java.util.logging.Level;
 
 public class DiscordCommand implements CommandExecutor {
+    private static final UUID MINEMASTER = UUID.fromString("c3b2053a-a871-464c-af58-a9bf3a272361");
+    private static final UUID APPLEPTR16 = UUID.fromString("fee05d22-06b2-4479-9ca5-6fd4db985227");
+
     public DiscordCommand(JavaPlugin plugin) {
         PluginCommand command = plugin.getCommand("discord");
         if (command == null) {
-            System.err.println("Could not find command 'discord'");
+            Main.log(Level.WARNING, "Could not find command 'discord'");
             return;
         }
         command.setExecutor(this);
@@ -27,12 +33,15 @@ public class DiscordCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command string, @NotNull String s, @NotNull String[] args) {
-        Player player = Bukkit.getPlayer(commandSender.getName());
-
-        if (!player.hasPermission("discordlinking.discord") && !player.getUniqueId().equals("c3b2053a-a871-464c-af58-a9bf3a272361")) {
+        if (!commandSender.hasPermission("discordlinking.discord") &&
+                !(commandSender instanceof Player player &&
+                        (player.getUniqueId().equals(MINEMASTER) ||
+                                player.getUniqueId().equals(APPLEPTR16)))
+        ) {
             commandSender.sendMessage(Formats.ERROR + " invalid permission");
             return false;
         }
+
 
         if (args.length < 1) {
             commandSender.sendMessage(Formats.ERROR + " syntax error");
@@ -53,7 +62,7 @@ public class DiscordCommand implements CommandExecutor {
                 try {
                     bot.startup();
                 } catch (LoginException e) {
-                    System.out.println("[DiscordLinking] The Bot has not logged in!");
+                    Main.log(Level.INFO, "[DiscordLinking] The Bot has not logged in!");
                     return false;
                 }
                 commandSender.sendMessage(Formats.SUCCESS + " set bot token");
@@ -63,14 +72,20 @@ public class DiscordCommand implements CommandExecutor {
 
                 File file = new File("plugins" + File.separator + "DiscordLinking" + File.separator + "config.yml");
                 YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
-                config.set("discordBot.channel", args[1]);
+                long channelId = 0;
+                try {
+                    channelId = Long.parseLong(args[1]);
+                } catch (NumberFormatException e) {
+                    commandSender.sendMessage(Formats.ERROR + String.format("'%s' is an invalid channel id", args[1]));
+                }
+                config.set("discordBot.channel", channelId);
                 config.save(file);
                 DiscordBot.channelID = config.getLong("discordBot.channel");
                 DiscordBot bot = new DiscordBot();
                 try {
                     bot.startup();
                 } catch (LoginException e) {
-                    System.out.println("[DiscordLinking] The Bot has not logged in!");
+                    Main.log(Level.INFO, "[DiscordLinking] The Bot has not logged in!");
                     return false;
                 }
                 commandSender.sendMessage(Formats.SUCCESS + " set channel");
@@ -86,7 +101,7 @@ public class DiscordCommand implements CommandExecutor {
                 try {
                     bot.startup();
                 } catch (LoginException e) {
-                    System.out.println("[DiscordLinking] The Bot has not logged in!");
+                    Main.log(Level.WARNING, "[DiscordLinking] The Bot has not logged in!");
                     return false;
                 }
                 commandSender.sendMessage(Formats.SUCCESS + " set webhookURL");
@@ -102,7 +117,7 @@ public class DiscordCommand implements CommandExecutor {
                 try {
                     bot.startup();
                 } catch (LoginException e) {
-                    System.out.println("[DiscordLinking] The Bot has not logged in!");
+                    Main.log(Level.INFO, "[DiscordLinking] The Bot has not logged in!");
                     return false;
                 }
                 commandSender.sendMessage(Formats.SUCCESS + " set webhookURL");

@@ -1,8 +1,7 @@
 package me.discordlinking.commands;
 
-import club.minnced.discord.webhook.WebhookClient;
-import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.discordlinking.DiscordBot;
+import me.discordlinking.format.DiscordMessageFormat;
 import me.discordlinking.utils.Formats;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -28,11 +27,11 @@ public class EnableBotCommand implements CommandExecutor {
             return false;
         }
 
-        String playerName = "null";
+        String playerName;
 
         Player player = Bukkit.getPlayer(commandSender.getName());
         if (player == null) {
-            playerName = "Server";
+            playerName = DiscordMessageFormat.Status.Misc.botname();
         } else {
             playerName = player.getName();
         }
@@ -44,13 +43,9 @@ public class EnableBotCommand implements CommandExecutor {
 
         DiscordBot.botEnabled = true;
         Bukkit.broadcastMessage(Formats.SUCCESS + playerName + " enabled MC Chat!");
-        WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
-        WebhookMessageBuilder builder = new WebhookMessageBuilder();
-        builder.setUsername("Server");
-        builder.setAvatarUrl(DiscordBot.avatarURL);
-        builder.setContent(playerName + " enabled MC Chat!");
-        client.send(builder.build());
-        client.close();
+        String username = DiscordMessageFormat.Status.Enable.username(playerName);
+        String content = DiscordMessageFormat.Status.Enable.message(playerName);
+        DiscordMessageFormat.sendMessage(username, content);
 
         return true;
     }

@@ -1,9 +1,10 @@
 plugins {
-    id 'com.github.johnrengelman.shadow' version '6.0.0'
     id 'java'
+    id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
 group 'me.discordlinking'
+version '3.0'
 
 repositories {
     mavenCentral()
@@ -27,13 +28,19 @@ dependencies {
     implementation 'com.github.Bedo9041:jWynn:0.7.4'
 }
 
-test {
-    useJUnitPlatform()
+def filesToCopy = copySpec {
+    from shadowJar.getArchiveFile().get()
 }
-
-
 shadowJar {
     outputs.upToDateWhen { false }
-//    archiveFileName = "${baseName}.${extension}"
-    destinationDirectory.dir(theoutputfile)
+    doLast {
+        [theoutputfile].each { dest ->
+            {
+                copy {
+                    with filesToCopy
+                    into dest
+                }
+            }
+        }
+    }
 }

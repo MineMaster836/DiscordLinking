@@ -13,13 +13,12 @@ import org.jetbrains.annotations.NotNull;
 import javax.security.auth.login.LoginException;
 import java.io.File;
 import java.util.Objects;
+import java.util.logging.Level;
 
 public class ReloadCommand implements CommandExecutor {
-    private Main plugin;
 
-    public ReloadCommand(JavaPlugin plugin){
+    public ReloadCommand(JavaPlugin plugin) {
         Objects.requireNonNull(plugin.getCommand("discordreload")).setExecutor(this);
-        plugin = this.plugin;
     }
 
     @Override
@@ -45,7 +44,7 @@ public class ReloadCommand implements CommandExecutor {
         try {
             bot.startup();
         } catch (LoginException e) {
-            System.out.println("[DiscordLinking] The Bot has not logged in!");
+            Main.log(Level.WARNING, "[DiscordLinking] The Bot has not logged in!");
             return false;
         }
 
