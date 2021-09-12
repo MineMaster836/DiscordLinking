@@ -4,6 +4,7 @@ import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.discordlinking.commands.*;
 import me.discordlinking.format.DiscordMessageFormat;
+import me.discordlinking.state.BotState;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import javax.security.auth.login.LoginException;
@@ -24,7 +25,29 @@ public class Main extends JavaPlugin { // First thing that gets run (its the mai
     }
 
     @Override
+    public void onLoad() { // Waits until server is ready of functions, this will start the bot and set the bots status
+        instance = this;
+
+        // Bot start up, and check if it started
+        DiscordBot bot = new DiscordBot();
+        try {
+            bot.startup();
+        } catch (LoginException e) {
+            Main.get().getLogger().log(Level.INFO, "[DiscordLinking] The Bot has not logged in!");
+            return;
+        }
+        if (DiscordBot.channelID == 0) {
+            return;
+        }
+
+        // Setting bots status
+        DiscordMessageFormat.setPresence();
+    }
+
+    @Override
     public void onEnable() { // Runs when the server starts or reloads, it adds all commands and listeners and sends a server started or reloaded message
+        // load any persistent variables in BotState
+        BotState.load();
 
         // Listener and Commands Loader
         new SpigotListeners(this);
@@ -49,25 +72,6 @@ public class Main extends JavaPlugin { // First thing that gets run (its the mai
         DiscordMessageFormat.sendMessage(username, content);
     }
 
-    @Override
-    public void onLoad() { // Waits until server is ready of functions, this will start the bot and set the bots status
-        instance = this;
-
-        // Bot start up, and check if it started
-        DiscordBot bot = new DiscordBot();
-        try {
-            bot.startup();
-        } catch (LoginException e) {
-            Main.get().getLogger().log(Level.INFO, "[DiscordLinking] The Bot has not logged in!");
-            return;
-        }
-        if (DiscordBot.channelID == 0) {
-            return;
-        }
-
-        // Setting bots status
-        DiscordMessageFormat.setPresence();
-    }
 
     @Override
     public void onDisable() { /* When server stops or reloads, This will send a stop or reload message,

@@ -112,7 +112,7 @@ public class ReactableWhoToSend implements ReactableMessage {
         embed.setColor(DiscordBot.chatColor);
         MessageBuilder msg = new MessageBuilder();
         msg.setContent(".");
-        msg.setEmbed(embed.build());
+        msg.setEmbeds(embed.build());
         return msg.build();
     }
 

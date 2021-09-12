@@ -2,6 +2,9 @@ package me.discordlinking.commands;
 
 import me.discordlinking.DiscordBot;
 import me.discordlinking.format.DiscordMessageFormat;
+import me.discordlinking.format.MinecraftMessageFormat;
+import me.discordlinking.state.BotState;
+import me.discordlinking.state.ChatLinkingPolicy;
 import me.discordlinking.utils.Formats;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
@@ -34,13 +37,13 @@ public class DisableBotCommand implements CommandExecutor {
             playerName = player.getName();
         }
 
-        if (!DiscordBot.botEnabled) {
+        if (BotState.getChatPolicy() == ChatLinkingPolicy.NONE) {
             commandSender.sendMessage(Formats.ERROR + " bot is already disabled");
             return false;
         }
 
-        DiscordBot.botEnabled = false;
-        Bukkit.broadcastMessage(Formats.SUCCESS + playerName + " disabled MC Chat!");
+        BotState.setChatPolicy(ChatLinkingPolicy.NONE);
+        MinecraftMessageFormat.chatPolicyChange(playerName, ChatLinkingPolicy.NONE);
         String username = DiscordMessageFormat.Status.Disable.username(playerName);
         String content = DiscordMessageFormat.Status.Disable.message(playerName);
         DiscordMessageFormat.sendMessage(username, content);

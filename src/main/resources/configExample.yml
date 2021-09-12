@@ -1,0 +1,10 @@
+discordBot:
+  token: "your_token_here"
+  channel: 0
+  color: 0x111111
+webhook:
+  webhookURL: "webhookurl"
+  avatarURL: https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png
+options:
+  showDeaths: true
+  wynnApi: false

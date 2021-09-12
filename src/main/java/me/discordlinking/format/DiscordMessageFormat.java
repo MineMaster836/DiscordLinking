@@ -40,55 +40,31 @@ public class DiscordMessageFormat {
         }
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
         All.username = config.getString("all.username");
-        System.out.println(All.username);
         All.message = config.getString("all.message");
-        System.out.println(All.message);
         Chat.Console.username = config.getString("chat.console.username");
-        System.out.println(Chat.Console.username);
         Chat.Console.message = config.getString("chat.console.message");
-        System.out.println(Chat.Console.message);
         Chat.Normal.username = config.getString("chat.normal.username");
-        System.out.println(Chat.Normal.username);
         Chat.Normal.message = config.getString("chat.normal.message");
-        System.out.println(Chat.Normal.message);
         Status.Misc.botname = config.getString("status.misc.botname");
-        System.out.println(Status.Misc.botname);
         Status.Disable.username = config.getString("status.disable.username");
-        System.out.println(Status.Disable.username);
         Status.Disable.message = config.getString("status.disable.message");
-        System.out.println(Status.Disable.message);
         Status.Enable.username = config.getString("status.enable.username");
-        System.out.println(Status.Enable.username);
         Status.Enable.message = config.getString("status.enable.message");
-        System.out.println(Status.Enable.message);
         Status.Start.username = config.getString("status.start.username");
-        System.out.println(Status.Start.username);
         Status.Start.message = config.getString("status.start.message");
-        System.out.println(Status.Start.message);
         Status.ReloadStart.username = config.getString("status.reload_start.username");
-        System.out.println(Status.ReloadStart.username);
         Status.ReloadStart.message = config.getString("status.reload_start.message");
-        System.out.println(Status.ReloadStart.message);
         Status.Stop.username = config.getString("status.stop.username");
-        System.out.println(Status.Stop.username);
         Status.Stop.message = config.getString("status.stop.message");
-        System.out.println(Status.Stop.message);
         Status.ReloadStop.username = config.getString("status.reload_stop.username");
-        System.out.println(Status.ReloadStop.username);
         Status.ReloadStop.message = config.getString("status.reload_stop.message");
-        System.out.println(Status.ReloadStop.message);
         Login.username = config.getString("login.username");
-        System.out.println(Login.username);
         Login.message = config.getString("login.message");
-        System.out.println(Login.message);
         Logout.username = config.getString("logout.username");
-        System.out.println(Logout.username);
         Logout.message = config.getString("logout.message");
-        System.out.println(Logout.message);
         Death.username = config.getString("death.username");
-        System.out.println(Death.username);
         Death.message = config.getString("death.message");
-        System.out.println(Death.message);
+
         try {
             Activity.online_status = OnlineStatus.valueOf(config.getString("activity.online_status"));
         } catch (IllegalArgumentException | NullPointerException e) {
@@ -151,7 +127,7 @@ public class DiscordMessageFormat {
         content = formatAll(content);
         username = All.username(username);
         content = All.message(content);
-        if (username.isBlank() || content.isBlank()) return;
+        if (username.isBlank() || content.isBlank() || DiscordBot.webhookURL == null) return;
         WebhookClient client = WebhookClient.withUrl(DiscordBot.webhookURL);
         WebhookMessageBuilder builder = new WebhookMessageBuilder();
         builder.setUsername(username);

@@ -16,13 +16,27 @@ repositories {
         name 'm2-dv8tion'
         url 'https://m2.dv8tion.net/releases'
     }
+    maven {
+        url "https://jitpack.io"
+    }
+}
+configurations.all {
+    resolutionStrategy.cacheDynamicVersionsFor(20, 'seconds')
 }
 
 dependencies {
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.2'
-//    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
+    compileOnly 'com.destroystokyo.paper:paper-api:1.16.5-R0.1-SNAPSHOT'
     compileOnly fileTree(dir: 'libs', include: ['spigot.jar'])
+
+    implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.32'
+    implementation 'org.jetbrains:annotations:22.0.0'
+    implementation 'com.google.code.gson:gson:2.8.8'
+    implementation 'org.yaml:snakeyaml:1.29'
+    implementation ('com.github.amp7368:AppleUtilities:99fa19fb66')
+
+    implementation('com.github.amp7368:AppleUtilities:-SNAPSHOT') { changing = true }
     implementation("net.dv8tion:JDA:4.3.0_324")
     implementation('club.minnced:discord-webhooks:0.5.8')
     implementation 'com.github.Bedo9041:jWynn:0.7.4'

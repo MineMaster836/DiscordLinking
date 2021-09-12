@@ -16,19 +16,28 @@ public class Formats { // All the formats for commands to players
 
     @NotNull
     public static String getAvatarFromUUID(UUID uniqueId) { // Gets the player avatar for the webhook
-        return "https://crafatar.com/avatars/playerUUID?overlay".replace("playerUUID", uniqueId.toString().replaceAll("-", ""));
+        return String.format("https://crafatar.com/avatars/%s?overlay", uniqueId.toString().replace("-", ""));
     }
 
     public static TextComponent getDiscordToServerMessage(@NotNull String message, String prefix, Member member, Role userRole, String userColourHex, User author) { // Make the message a text component so discord_dm can be a thing
 
-        String s =  ChatColor.translateAlternateColorCodes('&', String.format("%s &7| %s &r%s &8>> &r%s",
+        String s = ChatColor.translateAlternateColorCodes('&', String.format("%s &7| %s &r%s &8>> &r%s",
                 ChatColor.of("#8EA0E1") + "Discord" + (prefix == null ? "" : " " + prefix),
                 userRole == null ? "" : userColourHex == null ? "" : ChatColor.of(userColourHex) + "" + ChatColor.BOLD + userRole.getName(),
-                member == null ? (author == null ? "" : author.getName()) :(userColourHex == null ? "" : ChatColor.of(userColourHex)) + member.getEffectiveName(),
+                member == null ? (author == null ? "" : author.getName()) : (userColourHex == null ? "" : ChatColor.of(userColourHex)) + member.getEffectiveName(),
                 message));
         TextComponent t = new TextComponent();
-        for(BaseComponent old:TextComponent.fromLegacyText(s)){
+        for (BaseComponent old : TextComponent.fromLegacyText(s)) {
             t.addExtra(old);
-        }return t;
+        }
+        return t;
+    }
+
+    public static String success(String msg) {
+        return SUCCESS + " " + msg;
+    }
+
+    public static String error(String msg) {
+        return ERROR + " " + msg;
     }
 }
