@@ -31,8 +31,9 @@ test {
     useJUnitPlatform()
 }
 
+
 shadowJar {
-    archiveFileName = "${baseName}.${extension}"
-//    destinationDirectory = file("C:\\Users\\liamp\\Desktop\\Coding Shit\\Server\\plugins")
-//    destinationDirectory = file(outputfile)
+    outputs.upToDateWhen { false }
+//    archiveFileName = "${baseName}.${extension}"
+    destinationDirectory.dir(theoutputfile)
 }
