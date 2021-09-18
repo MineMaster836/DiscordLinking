@@ -4,6 +4,7 @@ import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.discordlinking.DiscordBot;
 import me.discordlinking.Main;
+import me.discordlinking.utils.WriteConfigFile;
 import net.dv8tion.jda.api.OnlineStatus;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
@@ -17,27 +18,7 @@ public class DiscordMessageFormat {
 
     static {
         File file = new File(Main.get().getDataFolder(), "messageFormatting.yml");
-        if (!file.exists()) {
-            InputStream messageFormatExample = Main.get().getResource("messageFormatExample.yml");
-            if (messageFormatExample == null) {
-                Main.log(Level.WARNING, "The example template for messageFormatting.yml does not exist, and neither does messageFormatting.yml");
-            } else {
-                try (BufferedReader reader = new BufferedReader(new InputStreamReader(messageFormatExample))) {
-                    //noinspection ResultOfMethodCallIgnored
-                    file.getParentFile().mkdirs();
-                    //noinspection ResultOfMethodCallIgnored
-                    file.createNewFile();
-                    try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-                        int c;
-                        while ((c = reader.read()) != -1) {
-                            writer.write(c);
-                        }
-                    }
-                } catch (IOException e) {
-                    Main.log(Level.WARNING, "The example template for messageFormatting.yml could not be copied to messageFormatting.yml");
-                }
-            }
-        }
+        WriteConfigFile.run(file, "messageFormatExample.yml");
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
         All.username = config.getString("all.username");
         All.message = config.getString("all.message");
@@ -101,10 +82,10 @@ public class DiscordMessageFormat {
                 .replace("%string", message);
     }
 
-    private static String formatAll(String msg) {
+    private static String formatAll(String msg, GameChangeEvent gameChangeEvent) {
         Server server = Bukkit.getServer();
         return msg == null ? "" : msg
-                .replace("%count", String.valueOf(server.getOnlinePlayers().size()))
+                .replace("%count", String.valueOf(server.getOnlinePlayers().size() + gameChangeEvent.getPlayersOnlineChange()))
                 .replace("%max", String.valueOf(server.getMaxPlayers()))
                 .replace("%servername", server.getName())
                 .replace("%serverip", server.getIp());
@@ -118,13 +99,13 @@ public class DiscordMessageFormat {
         return msg == null ? "" : formatting.replace("%message", msg);
     }
 
-    public static void sendMessage(String username, String content) {
-        sendMessage(username, DiscordBot.avatarURL, content);
+    public static void sendMessage(String username, String content, GameChangeEvent gameChangeEvent) {
+        sendMessage(username, DiscordBot.avatarURL, content, gameChangeEvent);
     }
 
-    public static void sendMessage(String username, String avatarURL, String content) {
-        username = formatAll(username);
-        content = formatAll(content);
+    public static void sendMessage(String username, String avatarURL, String content, GameChangeEvent gameChangeEvent) {
+        username = formatAll(username, gameChangeEvent);
+        content = formatAll(content, gameChangeEvent);
         username = All.username(username);
         content = All.message(content);
         if (username.isBlank() || content.isBlank() || DiscordBot.webhookURL == null) return;
@@ -136,18 +117,18 @@ public class DiscordMessageFormat {
         builder.setContent(content);
         client.send(builder.build());
         client.close();
-        verifyPresence();
+        verifyPresence(gameChangeEvent);
     }
 
-    private static void verifyPresence() {
-        String newPresence = formatAll(Activity.message());
+    private static void verifyPresence(GameChangeEvent gameChangeEvent) {
+        String newPresence = formatAll(Activity.message(), gameChangeEvent);
         if (!newPresence.equalsIgnoreCase(oldPresnce)) {
             setPresence(newPresence);
         }
     }
 
-    public static void setPresence() {
-        setPresence(formatAll(Activity.message()));
+    public static void setPresence(GameChangeEvent gameChangeEvent) {
+        setPresence(formatAll(Activity.message(), gameChangeEvent));
     }
 
     private static void setPresence(String newPresence) {

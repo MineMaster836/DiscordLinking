@@ -1,5 +1,5 @@
 name: DiscordLinking
-version: "2.1"
+version: "2.2"
 api-version: "1.16"
 authors: [ appleptr16, KarmaLover, Essentuan ]
 main: me.discordlinking.Main
@@ -9,11 +9,11 @@ commands:
   disablebot:
     description: disables the connection between discord and mc chat
     permission: discordlinking.disable
-    aliases: [ 'discord_disable' ]
+    aliases: [ 'discordDisable' ]
   enablebot:
     description: enables the connection between discord and mc chat
     permission: discordlinking.enable
-    aliases: [ 'discord_enable' ]
+    aliases: [ 'discordEnable' ]
 
   discordReload:
     description: reloads the config for token and channel changes

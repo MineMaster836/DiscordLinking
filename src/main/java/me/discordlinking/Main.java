@@ -4,6 +4,7 @@ import club.minnced.discord.webhook.WebhookClient;
 import club.minnced.discord.webhook.send.WebhookMessageBuilder;
 import me.discordlinking.commands.*;
 import me.discordlinking.format.DiscordMessageFormat;
+import me.discordlinking.format.GameChangeEvent;
 import me.discordlinking.state.BotState;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -41,7 +42,7 @@ public class Main extends JavaPlugin { // First thing that gets run (its the mai
         }
 
         // Setting bots status
-        DiscordMessageFormat.setPresence();
+        DiscordMessageFormat.setPresence(GameChangeEvent.ENABLE_SERVER);
     }
 
     @Override
@@ -68,8 +69,8 @@ public class Main extends JavaPlugin { // First thing that gets run (its the mai
             username = DiscordMessageFormat.Status.ReloadStart.username();
             content = DiscordMessageFormat.Status.ReloadStart.message();
         }
-        DiscordMessageFormat.setPresence();
-        DiscordMessageFormat.sendMessage(username, content);
+        DiscordMessageFormat.setPresence(GameChangeEvent.ENABLE_SERVER);
+        DiscordMessageFormat.sendMessage(username, content, GameChangeEvent.ENABLE_SERVER);
     }
 
 
@@ -87,7 +88,7 @@ public class Main extends JavaPlugin { // First thing that gets run (its the mai
             username = DiscordMessageFormat.Status.ReloadStop.username();
             content = DiscordMessageFormat.Status.ReloadStop.message();
         }
-        DiscordMessageFormat.sendMessage(username, content);
+        DiscordMessageFormat.sendMessage(username, content, GameChangeEvent.DISABLE_SERVER);
         // Stopping bot... kinda
         DiscordBot.client.shutdownNow();
     }

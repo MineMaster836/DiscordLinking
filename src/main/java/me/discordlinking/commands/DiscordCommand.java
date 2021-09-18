@@ -2,21 +2,22 @@ package me.discordlinking.commands;
 
 import me.discordlinking.DiscordBot;
 import me.discordlinking.Main;
+import me.discordlinking.state.BotState;
+import me.discordlinking.state.ChatLinkingPolicy;
 import me.discordlinking.utils.Formats;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.command.PluginCommand;
+import me.discordlinking.utils.PrettyStrings;
+import org.bukkit.command.*;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class DiscordCommand implements CommandExecutor {
     private static final UUID MINEMASTER = UUID.fromString("c3b2053a-a871-464c-af58-a9bf3a272361");
@@ -29,6 +30,37 @@ public class DiscordCommand implements CommandExecutor {
             return;
         }
         command.setExecutor(this);
+        command.setTabCompleter(new TabCompleter() {
+            @Nullable
+            @Override
+            public List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+                List<String> tabCompletions = new ArrayList<>();
+                tabCompletions.add("settoken");
+                tabCompletions.add("setchan");
+                tabCompletions.add("setwebhook");
+                tabCompletions.add("avatar");
+                for (ChatLinkingPolicy policy : ChatLinkingPolicy.values()) {
+                    tabCompletions.add("policy " + PrettyStrings.uppercaseFirstWord(policy.name()));
+                }
+                String rest = String.join(" ", strings);
+                int lengthOfArgsString = rest.length();
+                return tabCompletions.stream()
+                        .filter(tab -> tab.toLowerCase(Locale.ROOT).startsWith(rest.toLowerCase(Locale.ROOT)))
+                        .map(tab -> {
+                            StringBuilder currentWord = new StringBuilder();
+                            int length = Math.min(tab.length() - 1, lengthOfArgsString);
+                            for (int i = 0; i < length; i++) {
+                                if (tab.charAt(i) == ' ') {
+                                    currentWord = new StringBuilder();
+                                } else {
+                                    currentWord.append(tab.charAt(i));
+                                }
+                            }
+                            return currentWord + tab.substring(length);
+                        })
+                        .collect(Collectors.toList());
+            }
+        });
     }
 
     @Override
@@ -117,10 +149,16 @@ public class DiscordCommand implements CommandExecutor {
                 try {
                     bot.startup();
                 } catch (LoginException e) {
-                    Main.log(Level.INFO, "[DiscordLinking] The Bot has not logged in!");
+                    Main.log(Level.INFO, "The Bot has not logged in!");
                     return false;
                 }
                 commandSender.sendMessage(Formats.SUCCESS + " set webhookURL");
+            } else if (args[0].equalsIgnoreCase("policy") && args.length == 2) {
+                try {
+                    BotState.setChatPolicy(ChatLinkingPolicy.valueOf(args[1].toUpperCase(Locale.ROOT)));
+                } catch (IllegalArgumentException e) {
+                    commandSender.sendMessage(Formats.error(String.format("There is no policy named '%s'", args[1])));
+                }
             } else {
                 commandSender.sendMessage(Formats.ERROR + " syntax error");
                 return false;

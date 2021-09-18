@@ -2,6 +2,7 @@ package me.discordlinking.commands;
 
 import me.discordlinking.DiscordBot;
 import me.discordlinking.format.DiscordMessageFormat;
+import me.discordlinking.format.GameChangeEvent;
 import me.discordlinking.format.MinecraftMessageFormat;
 import me.discordlinking.state.BotState;
 import me.discordlinking.state.ChatLinkingPolicy;
@@ -46,7 +47,7 @@ public class EnableBotCommand implements CommandExecutor {
         MinecraftMessageFormat.chatPolicyChange(playerName, ChatLinkingPolicy.ALL);
         String username = DiscordMessageFormat.Status.Enable.username(playerName);
         String content = DiscordMessageFormat.Status.Enable.message(playerName);
-        DiscordMessageFormat.sendMessage(username, content);
+        DiscordMessageFormat.sendMessage(username, content, GameChangeEvent.CHANGE_LINKING_POLICY);
 
         return true;
     }

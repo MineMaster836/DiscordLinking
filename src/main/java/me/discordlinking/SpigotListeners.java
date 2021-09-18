@@ -1,6 +1,7 @@
 package me.discordlinking;
 
 import me.discordlinking.format.DiscordMessageFormat;
+import me.discordlinking.format.GameChangeEvent;
 import me.discordlinking.state.BotState;
 import me.discordlinking.utils.ChatUtils;
 import me.discordlinking.utils.Formats;
@@ -41,7 +42,7 @@ public class SpigotListeners implements Listener {
         String username = DiscordMessageFormat.Chat.Normal.username(newMessage, playerName);
         String avatarURL = Formats.getAvatarFromUUID(e.getPlayer().getUniqueId());
         String content = DiscordMessageFormat.Chat.Normal.message(newMessage, playerName);
-        DiscordMessageFormat.sendMessage(username, avatarURL, content);
+        DiscordMessageFormat.sendMessage(username, avatarURL, content, GameChangeEvent.CHAT);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -52,7 +53,7 @@ public class SpigotListeners implements Listener {
         String username = DiscordMessageFormat.Login.username(message, playerName);
         String content = DiscordMessageFormat.Login.message(message, playerName);
         String avatarURL = Formats.getAvatarFromUUID(e.getPlayer().getUniqueId());
-        DiscordMessageFormat.sendMessage(username, avatarURL, content);
+        DiscordMessageFormat.sendMessage(username, avatarURL, content, GameChangeEvent.PLAYER_JOIN);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -63,7 +64,7 @@ public class SpigotListeners implements Listener {
         String username = DiscordMessageFormat.Logout.username(message, playerName);
         String content = DiscordMessageFormat.Logout.message(message, playerName);
         String avatarURL = Formats.getAvatarFromUUID(e.getPlayer().getUniqueId());
-        DiscordMessageFormat.sendMessage(username, avatarURL, content);
+        DiscordMessageFormat.sendMessage(username, avatarURL, content, GameChangeEvent.PLAYER_LEAVE);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
@@ -75,7 +76,7 @@ public class SpigotListeners implements Listener {
             String username = DiscordMessageFormat.Death.username(message, playerName);
             String content = DiscordMessageFormat.Death.message(message, playerName);
             String avatarURL = Formats.getAvatarFromUUID(e.getEntity().getUniqueId());
-            DiscordMessageFormat.sendMessage(username, avatarURL, content);
+            DiscordMessageFormat.sendMessage(username, avatarURL, content, GameChangeEvent.PLAYER_DEATH);
         }
     }
 
@@ -109,7 +110,7 @@ public class SpigotListeners implements Listener {
                 if (BotState.getChatPolicy().isToDiscord()) {
                     String username = DiscordMessageFormat.Chat.Console.username(e.getCommand());
                     String content = DiscordMessageFormat.Chat.Console.message(ChatColor.stripColor(e.getCommand()));
-                    DiscordMessageFormat.sendMessage(username, content);
+                    DiscordMessageFormat.sendMessage(username, content, GameChangeEvent.CHAT);
                 }
             }
         } else if (args[0].equalsIgnoreCase("reload") || args[0].equalsIgnoreCase("rl")) {

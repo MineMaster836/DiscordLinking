@@ -5,11 +5,14 @@ import me.bed0.jWynn.api.v1.guild.WynncraftGuild;
 import me.bed0.jWynn.api.v1.guild.WynncraftGuildMember;
 import me.discordlinking.commands.DMCommand;
 import me.discordlinking.format.DiscordMessageFormat;
+import me.discordlinking.format.GameChangeEvent;
 import me.discordlinking.format.MinecraftMessageFormat;
 import me.discordlinking.reactions.AllReactables;
 import me.discordlinking.state.BotState;
 import me.discordlinking.state.ChatLinkingPolicy;
 import me.discordlinking.utils.Formats;
+import me.discordlinking.utils.QueueNowService;
+import me.discordlinking.utils.WriteConfigFile;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -52,6 +55,9 @@ public class DiscordBot extends ListenerAdapter {
     public DiscordBot() {
         instance = this;
         File file = new File(Main.get().getDataFolder(), "config.yml");
+        if (!file.exists()) {
+            WriteConfigFile.run(file, "configExample.yml");
+        }
         YamlConfiguration config = YamlConfiguration.loadConfiguration(file);
         botToken = config.getString("discordBot.token");
         channelID = config.getLong("discordBot.channel");
@@ -60,7 +66,6 @@ public class DiscordBot extends ListenerAdapter {
         showDeaths = config.getBoolean("options.showDeaths");
         enableWynnApi = config.getBoolean("options.wynnApi");
         chatColor = config.getInt("discordBot.color");
-
     }
 
     public void startup() throws LoginException {
@@ -133,12 +138,6 @@ public class DiscordBot extends ListenerAdapter {
                 Bukkit.getServer().spigot().broadcast(message);
             } else {
                 Role userRole = roles.get(0);
-                //todo make this changeable in config
-
-                /* if (userRole.getName().equalsIgnoreCase("*") || userRole.getName().equalsIgnoreCase("admin") || userRole.getName().equalsIgnoreCase("moderator")) {
-                    userRole = roles.get(1);
-                } */
-
                 //gets the players discord role color and sets it to hexadecimal numbers
                 Color userColour = member.getColor();
                 String userColourHex;
@@ -159,7 +158,14 @@ public class DiscordBot extends ListenerAdapter {
     }
 
     private void helpCommand(MessageReceivedEvent event) {
-        //todo
+        EmbedBuilder embed = new EmbedBuilder();
+        embed.setTitle("Help page");
+        embed.addField(">list", "Lists all online players", false);
+        embed.addField(">disablebot", "Disable the bot sending messages", false);
+        embed.addField(">enablebot", "Enable the bot sending messages", false);
+        embed.addField(">w", "Wynn command", false);
+        embed.setColor(DiscordBot.chatColor);
+        event.getChannel().sendMessageEmbeds(embed.build()).queue();
     }
 
     private boolean wynnCommand(@NotNull MessageReceivedEvent event) {
@@ -204,7 +210,7 @@ public class DiscordBot extends ListenerAdapter {
             username = DiscordMessageFormat.Status.Disable.username(memberName);
             message = DiscordMessageFormat.Status.Disable.message(memberName);
         }
-        DiscordMessageFormat.sendMessage(username, message);
+        DiscordMessageFormat.sendMessage(username, message, GameChangeEvent.CHANGE_LINKING_POLICY);
         return true;
     }
 
