@@ -70,33 +70,33 @@ public class DiscordMessageFormat {
      * @return the formatted message
      */
     private static String formatPlayer(String msg, String playerName) {
-        return msg == null ? playerName : msg.replace("%player", playerName);
+        return msg == null ? playerName : msg.replace("%player%", playerName);
     }
 
     private static String formatMessage(String msg, String message) {
-        return msg == null ? message : msg.replace("%string", message);
+        return msg == null ? message : msg.replace("%string%", message);
     }
 
     private static String formatMessagePlayer(String msg, String playerName, String message) {
-        return msg == null ? message : msg.replace("%player", playerName)
-                .replace("%string", message);
+        return msg == null ? message : msg.replace("%player%", playerName)
+                .replace("%string%", message);
     }
 
     private static String formatAll(String msg, GameChangeEvent gameChangeEvent) {
         Server server = Bukkit.getServer();
         return msg == null ? "" : msg
-                .replace("%count", String.valueOf(server.getOnlinePlayers().size() + gameChangeEvent.getPlayersOnlineChange()))
+                .replace("%count%", String.valueOf(server.getOnlinePlayers().size() + gameChangeEvent.getPlayersOnlineChange()))
                 .replace("%max", String.valueOf(server.getMaxPlayers()))
-                .replace("%servername", server.getName())
-                .replace("%serverip", server.getIp());
+                .replace("%servername%", server.getName())
+                .replace("%serverip%", server.getIp());
     }
 
     private static String formatAllUsername(String formatting, String msg) {
-        return msg == null ? "" : formatting.replace("%username", msg);
+        return msg == null ? "" : formatting.replace("%username%", msg);
     }
 
     private static String formatAllMessage(String formatting, String msg) {
-        return msg == null ? "" : formatting.replace("%message", msg);
+        return msg == null ? "" : formatting.replace("%message%", msg);
     }
 
     public static void sendMessage(String username, String content, GameChangeEvent gameChangeEvent) {

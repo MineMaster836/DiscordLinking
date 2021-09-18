@@ -1,39 +1,39 @@
 # KEY
-# %player = player name (where applicable)
-# %string = message (where applicable)
-# %count = count of online players (anywhere)
-# %servername = count of max players (anywhere)
-# %serverip = count of max players (anywhere)
+# %player% = player name (where applicable)
+# %string% = message (where applicable)
+# %count% = count of online players (anywhere)
+# %servername% = count of max players (anywhere)
+# %serverip% = count of max players (anywhere)
 
-# %username = username (only applicable in all)
-# %message = message (only applicable in all)
+# %username% = username (only applicable in all)
+# %message% = message (only applicable in all)
 
 all:
-  username: "%username"
-  message: "%message"
+  username: "%username%"
+  message: "%message%"
 chat:
   console:
     username: "Console"
-    message: "%string"
+    message: "%string%"
   normal:
-    # %player, %string is applicable
-    username: "%player"
-    # %player, %string is applicable
-    message: "%string"
+    # %player%, %string% is applicable
+    username: "%player%"
+    # %player%, %string% is applicable
+    message: "%string%"
 
 status:
   misc:
     botname: "Server"
   disable:
-    # %player is applicable
+    # %player% is applicable
     username: "Server >> Linking"
-    # %player is applicable
-    message: "%player disabled MC Chat!"
+    # %player% is applicable
+    message: "%player% disabled MC Chat!"
   enable:
-    # %player is applicable
+    # %player% is applicable
     username: "Server >> Linking"
-    # %player is applicable
-    message: "%player enabled MC Chat!"
+    # %player% is applicable
+    message: "%player% enabled MC Chat!"
   start:
     username: "Server >> Status"
     message: "**SERVER STARTED** :white_check_mark:"
@@ -48,23 +48,23 @@ status:
     message: "**SERVER RELOADING** :arrows_counterclockwise:"
 
 login:
-  # %player, %string is applicable
-  username: "Server >> Players (%count)"
-  # %player, %string is applicable
-  message: "**%player** has joined Voltskiya"
+  # %player%, %string% is applicable
+  username: "Server >> Players (%count%)"
+  # %player%, %string% is applicable
+  message: "**%player%** has joined Voltskiya"
 logout:
-  # %player, %string is applicable
-  username: "Server >> Players (%count)"
-  # %player, %string is applicable
-  message: "**%player** has left Voltskiya"
+  # %player%, %string% is applicable
+  username: "Server >> Players (%count%)"
+  # %player%, %string% is applicable
+  message: "**%player%** has left Voltskiya"
 death:
-  # %player, %string is applicable
+  # %player%, %string% is applicable
   username: "Server >> Players"
-  # %player, %string is applicable
-  message: "%string"
+  # %player%, %string% is applicable
+  message: "%string%"
 activity:
   # should be one of the following: (ONLINE, IDLE, DO_NOT_DISTURB, INVISIBLE, OFFLINE)
   online_status: "ONLINE"
   # should be one of the following: (DEFAULT, STREAMING, LISTENING, COMPETING)
   activity: "DEFAULT"
-  message: "%count/%max"
+  message: "%count%/%max"
